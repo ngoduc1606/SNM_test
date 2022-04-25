@@ -13,6 +13,7 @@
 #include "App.h"
 #include "..\src\services\modbus_slave\atService_MB_TCP_SL.h"
 #include "..\src\services\modbus_slave\Modbus_Registers.h"
+#include "..\src\services\modbus_slave\General_MB_Register.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
 
@@ -82,19 +83,17 @@ void  App_MB_TCP::App_MB_Start()
  
  
  // Init General Register 
-  for( int count = 0; count <= 1000; count++)
+  for( int count = GENERAL_REGISTER_RW_MODBUS_RTU_ID; count <= GENERAL_REGISTER_R_MODBUS_TCP_IP_PORT; count++)
   {
-    atService_MB_TCP_SL.addHreg(count,2);
-	atService_MB_TCP_SL.addCoil(count,1);
-	atService_MB_TCP_SL.addIreg(count,2);
-	atService_MB_TCP_SL.addIsts(count,1);
+    atService_MB_TCP_SL.addHreg(count,count);
   }
-  
-//  // Init SNM Register
-//   for( int count = SMM_REGISTER_RW_SHT30_SENSOR_STATE; count <= SNM_REGISTER_R_MIN_ETHANOL; count++)
-//   {
-//     atService_MB_TCP_SL.addHreg(count,count);
-//   }
+   atService_MB_TCP_SL.addHreg(GENERAL_REGISTER_R_DEVICE_TYPE,3);
+   atService_MB_TCP_SL.addHreg(GENERAL_REGISTER_RW_DEVICE_ID,0);
+ // Init SNM Register
+  for( int count = SNM_REGISTER_R_TEMPERATURE_REAL_TIME; count <= SNM_REGISTER_R_ETHANOL_REAL_TIME; count++)
+  {
+    atService_MB_TCP_SL.addHreg(count,count);
+  }
 
 }  
 /**

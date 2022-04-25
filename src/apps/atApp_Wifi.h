@@ -89,8 +89,8 @@ public:
     char ssid_To_Connect[100] = "Atlab";
     char password_To_Connect[100] = "ChickyTuan";
     uint8_t waiting_time_to_connect = 15;
-    Wifi_IP_Mode ip_Mode = WIFI_IP_MODE_Static;
-    uint8_t IP_Static[IPV4_Index_Number]        = {192,168,1,101};
+    Wifi_IP_Mode ip_Mode = WIFI_IP_MODE_Dynamic;
+    uint8_t IP_Static[IPV4_Index_Number]        = {192,168,1,10};
     uint8_t Gateway_Static[IPV4_Index_Number]   = {192,168,1,1};
     uint8_t Subnet_Static[IPV4_Index_Number]    = {255,255,0,0};
     uint8_t DNS1_Static[IPV4_Index_Number]       = {8,8,8,8};
