@@ -7,19 +7,19 @@
   Copyright:: 2022 ngoduc1606@gmail.com
 */
 
-#ifndef _Application_atApp_MB_TCP_SL_
-#define _Application_atApp_MB_TCP_SL_
+#ifndef _Application_atApp_MB_TCP_SL_HDM_
+#define _Application_atApp_MB_TCP_SL_HDM_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "..\src\services\modbus_slave\atService_MB_TCP_SL.h"
-#include "..\src\services\modbus_slave\Modbus_Registers.h"
+#include "..\src\services\modbus_slave\Modbus_Registers_HDM.h"
 #include "..\src\services\modbus_slave\General_MB_Register.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
-static TaskHandle_t Task_atApp_MB_TCP_SL;  
-void atApp_MB_TCP_SL_Task_Func(void *parameter);
+static TaskHandle_t Task_atApp_MB_TCP_HDM;  
+void atApp_MB_TCP_HDM_Task_Func(void *parameter);
 /* _____GLOBAL FUNCTION______________________________________________________ */
 /* _____CLASS DEFINITION_____________________________________________________ */
 /**
@@ -39,7 +39,7 @@ public:
 	static void  App_MB_End();
 protected:
 private:
-} atApp_MB_TCP_SL ;
+} atApp_MB_TCP_SL_HDM ;
 /**
  * This function will be automaticaly called when a object is created by this class
  */
@@ -71,7 +71,7 @@ App_MB_TCP::~App_MB_TCP()
  */
 void  App_MB_TCP::App_MB_Pend()
 {
-  // atApp_MB_TCP_SL.Debug();
+  // atApp_MB_TCP_SL_HDM.Debug();
 }
 /**
  * This start function will init some critical function 
@@ -81,20 +81,19 @@ void  App_MB_TCP::App_MB_Start()
 	// init atXYZ Service in the fist running time
 	atService_MB_TCP_SL.Run_Service();
  
- 
  // Init General Register 
   for( int count = GENERAL_REGISTER_RW_MODBUS_RTU_ID; count <= GENERAL_REGISTER_R_MODBUS_TCP_IP_PORT; count++)
   {
     atService_MB_TCP_SL.addHreg(count,count);
   }
-   atService_MB_TCP_SL.addHreg(GENERAL_REGISTER_R_DEVICE_TYPE,3);
+   atService_MB_TCP_SL.addHreg(GENERAL_REGISTER_R_DEVICE_TYPE,7);
    atService_MB_TCP_SL.addHreg(GENERAL_REGISTER_RW_DEVICE_ID,0);
  // Init SNM Register
-  for( int count = SNM_REGISTER_R_TEMPERATURE_REAL_TIME; count <= SNM_REGISTER_R_ETHANOL_REAL_TIME; count++)
+  for( int count = HDM_REGISTER_RW_MODE_OPERATION; count <= HDM_REGISTER_RW_HIGH_LIMIT_POWER; count++)
   {
     atService_MB_TCP_SL.addHreg(count,count);
   }
-
+  atService_MB_TCP_SL.addIreg(HDM_REGISTER_R_TEMPERATURE,HDM_REGISTER_R_TEMPERATURE);
 }  
 /**
  * Restart function of SNM  app
@@ -109,20 +108,15 @@ void  App_MB_TCP::App_MB_Restart()
 void  App_MB_TCP::App_MB_Execute()
 {	    
 	atService_MB_TCP_SL.Run_Service();
-	if(atApp_MB_TCP_SL.User_Mode == APP_USER_MODE_DEBUG)
-	{
-	
-	} 
-
 }
 void  App_MB_TCP::App_MB_Suspend(){}
 void  App_MB_TCP::App_MB_Resume(){}	  
 void  App_MB_TCP::App_MB_End(){}
-void atApp_MB_TCP_SL_Task_Func(void *parameter)
+void atApp_MB_TCP_HDM_Task_Func(void *parameter)
 {
   while (1)
   {
-    atApp_MB_TCP_SL.Run_Application(APP_RUN_MODE_AUTO);
+    atApp_MB_TCP_SL_HDM.Run_Application(APP_RUN_MODE_AUTO);
     vTaskDelay(1/ portTICK_PERIOD_MS);
   }
 }

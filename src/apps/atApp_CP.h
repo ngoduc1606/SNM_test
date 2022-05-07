@@ -17,7 +17,10 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../apps/atApp_Wifi.h"
-#include "../apps/atApp_MB_TCP_SL.h"
+#include "../apps/atApp_MB_TCP_SNM.h"
+#include "../apps/atApp_MB_TCP_IDM.h"
+#include "../apps/atApp_MB_TCP_EMM.h"
+#include "../apps/atApp_MB_TCP_HDM.h"
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -108,7 +111,10 @@ void  App_CP::App_CP_Execute()
 	}
 	if(atApp_Wifi.status == WIFI_STATUS_Connected)
 	{
-		vTaskResume(Task_atApp_MB_TCP_SL);
+		// vTaskResume(Task_atApp_MB_TCP_SNM);
+		vTaskResume(Task_atApp_MB_TCP_EMM);
+		// vTaskResume(Task_atApp_MB_TCP_IDM);
+		// vTaskResume(Task_atApp_MB_TCP_HDM);
 	}
     if(atApp_CP.User_Mode == APP_USER_MODE_DEBUG)
     {
